@@ -1,0 +1,30 @@
+﻿@model object
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Confirmation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"/>
+    <link href=@Url.Content("~/StyleSheet.css") rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-fixed-top">
+        <span class="navbar-text">
+            Online Construction Equipment Rental
+        </span>
+        <button class="btn btn-secondary navbar-right" type="submit">
+            @Html.ActionLink("Home", "Index", "Home")
+        </button>
+    </nav>
+<div class="jumbotron container small-content">
+    <p class="position-center">Oops! An error occured.</p>
+    <p class="position-center">Please start again the renting process.</p>
+    <div class="center-positioned-button">
+        <button type="submit" class="btn btn-secondary centered-button">
+            @Html.ActionLink("Go back to homepage", "Index", "Home")
+        </button>
+    </div>
+</div>
+</body>
+</html>

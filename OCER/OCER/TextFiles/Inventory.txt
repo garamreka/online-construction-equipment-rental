@@ -1,0 +1,5 @@
+1;Caterpillar bulldozer;Heavy
+2;KamAZ truck;Regular
+3;Komatsu crane;Heavy
+4;Volvo steamroller;Regular
+5;Bosch jackhammer;Specialized

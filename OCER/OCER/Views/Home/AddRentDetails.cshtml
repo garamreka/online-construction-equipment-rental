@@ -1,0 +1,39 @@
+﻿@model OCER.Models.Equipment
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Add rent details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"/>
+    <link href=@Url.Content("~/StyleSheet.css") rel="stylesheet"/>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-fixed-top">
+        <span class="navbar-text">
+            Online Construction Equipment Rental
+        </span>
+        <button class="btn btn-secondary navbar-right" type="submit">
+            @Html.ActionLink("Home", "Index", "Home")
+        </button>
+    </nav>
+<div class="jumbotron container small-content">
+    <p class="position-center">You have selected: <b>@Model.Name</b></p>
+    <div class="center-positioned-button">
+    @using (Html.BeginForm("AddToCart", "Home", FormMethod.Post))
+    {
+        <div class="form-group">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="hidden" name="Name" value="@Model.Name"/>
+            <input type="hidden" name="EquipmentType" value="@Model.EquipmentType" />
+            <p>
+                Add days of rental: @Html.EditorFor(m => m.RentDays)
+            </p>
+            <button type="submit" class="btn btn-secondary">Add to cart</button>
+         </div>
+     }
+     </div>
+</div>
+</body>
+</html>

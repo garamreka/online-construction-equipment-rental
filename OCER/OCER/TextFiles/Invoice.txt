@@ -1,0 +1,5 @@
+=== INVOICE ===
+Rent details
+Caterpillar bulldozer: 280€
+Total price: 280€
+Number of bonus points earned: 2

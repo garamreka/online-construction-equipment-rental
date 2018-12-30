@@ -1,0 +1,14 @@
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\bin\Debug\netcoreapp2.0\NUnit3.TestAdapter.dll
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\bin\Debug\netcoreapp2.0\NUnit3.TestAdapter.pdb
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\bin\Debug\netcoreapp2.0\nunit.engine.netstandard.dll
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\bin\Debug\netcoreapp2.0\OCER.deps.json
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\bin\Debug\netcoreapp2.0\OCER.runtimeconfig.json
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\bin\Debug\netcoreapp2.0\OCER.runtimeconfig.dev.json
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\bin\Debug\netcoreapp2.0\OCER.dll
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\bin\Debug\netcoreapp2.0\OCER.pdb
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\obj\Debug\netcoreapp2.0\OCER.csprojResolveAssemblyReference.cache
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\obj\Debug\netcoreapp2.0\OCER.csproj.CoreCompileInputs.cache
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\obj\Debug\netcoreapp2.0\OCER.AssemblyInfoInputs.cache
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\obj\Debug\netcoreapp2.0\OCER.AssemblyInfo.cs
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\obj\Debug\netcoreapp2.0\OCER.dll
+F:\HomeAssignment\online-construction-equipment-rental\OCER\OCER\obj\Debug\netcoreapp2.0\OCER.pdb

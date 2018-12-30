@@ -1,0 +1,82 @@
+﻿@model IList<OCER.Models.Equipment>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Online construction equipment rental</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"/>
+    <link href=@Url.Content("~/StyleSheet.css") rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark navbar-fixed-top">
+    <span class="navbar-text">
+        Online Construction Equipment Rental
+    </span>
+    <button class="btn btn-secondary navbar-right" type="submit">
+        @Html.ActionLink("Home", "Index", "Home")
+    </button>
+</nav>
+<div class="jumbotron container">
+    <p class="position-center"><b>Welcome to Online Construction Equipment Rental!</b></p>
+    <p>This is a self-service system for renting construction equipment. Select the desired equipment!</p>
+    <p><b>Available equipments</b></p>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.EquipmentType
+                </td>
+                <td class="center-positioned-button">
+                    <form action="/details/@item.Id/" method="get">
+                        <input type="hidden" name="Id" value="@item.Id"/>
+                        <button type="submit" class="btn btn-secondary">Select</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+    <p><b>Collect loyalty points!</b> You can get loyalty points when renting equipment. A heavy machine gives 2 points and other types give one point per rental (regardless of the time rented).
+    </p>
+    <p><b>Prices</b></p>
+    <ul>
+        <li>Base prices
+            <ul>
+                <li>
+                    One-time rental fee – 100€
+                </li>
+                <li>
+                    Premium daily fee – 60€/day
+                </li>
+                <li>
+                    Regular daily fee – 40€/day
+                </li>
+            </ul>
+        </li>
+        <li> Unique prices based on type and rental days
+            <ul>
+                <li>
+                    Heavy – rental price is one-time rental fee plus premium fee for each day rented.
+                </li>
+                <li>
+                    Regular – rental price is one-time rental fee plus premium fee for the first 2 days plus regular fee for the number of days over 2.
+                </li>
+                <li>
+                    Specialized –rental price is premium fee for the first 3 days plus regular fee times the number of days over 3.
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

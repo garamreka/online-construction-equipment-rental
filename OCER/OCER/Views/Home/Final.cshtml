@@ -1,0 +1,61 @@
+﻿@using System.IO
+
+@{
+    var result = "";
+    string[] userData = null;
+    var path = @"././TextFiles/Invoice.txt";
+
+    if (File.Exists(path))
+    {
+        userData = File.ReadAllLines(path);
+        if (userData == null)
+        {
+            result = "The file is empty.";
+        }
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Finalize rent</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"/>
+    <link href=@Url.Content("~/StyleSheet.css") rel="stylesheet"/>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-fixed-top">
+        <span class="navbar-text">
+            Online Construction Equipment Rental
+        </span>
+        <button class="btn btn-secondary navbar-right" type="submit">
+            @Html.ActionLink("Home", "Index", "Home")
+        </button>
+    </nav>
+<div class="jumbotron container">
+    <p class="position-center"><b>Your order has been confirmed!</b></p>
+    <div class="invoice">
+        <p class="position-center"><b>@userData[0]</b></p>
+
+        @for (var i = 1; i < userData.Length; i++)
+        {
+            if (i == 1 || i == userData.Length-2 || i == userData.Length-1)
+            {
+                <p>@userData[i]</p>
+            }
+            else
+            {
+                <p class="tab">@userData[i]</p>
+            }
+        }
+
+    </div>
+    <div class="center-positioned-button">
+        <button type="submit" class="btn btn-secondary">
+            @Html.ActionLink("Return to homepage", "Index", "Home")
+        </button>
+    </div>
+</div>
+</body>
+</html>

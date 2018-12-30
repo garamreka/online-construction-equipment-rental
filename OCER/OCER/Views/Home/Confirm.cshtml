@@ -1,0 +1,33 @@
+﻿@model OCER.Models.Equipment
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Confirmation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"/>
+    <link href=@Url.Content("~/StyleSheet.css") rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark navbar-fixed-top">
+    <span class="navbar-text">
+        Online Construction Equipment Rental
+    </span>
+    <button class="btn btn-secondary navbar-right" type="submit">
+        @Html.ActionLink("Home", "Index", "Home")
+    </button>
+</nav>
+<div class="jumbotron container small-content">
+    <p class="position-center">Selected item has been successfully added to your cart!</p>
+    <div class="center-positioned-button">
+        <button type="submit" class="btn btn-secondary ">
+            @Html.ActionLink("Add more equipments", "Index", "Home")
+        </button>
+        <button type="submit" class="btn btn-secondary ">
+            @Html.ActionLink("Finalize rent", "Final", "Home")
+        </button>
+    </div>
+</div>
+</body>
+</html>
