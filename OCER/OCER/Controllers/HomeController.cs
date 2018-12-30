@@ -16,7 +16,7 @@ namespace OCER.Controllers
     {
         #region Fields
 
-        private static readonly log4net.ILog log = log4net.LogManager
+        private static readonly log4net.ILog Log = log4net.LogManager
             .GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly EquipmentRepository _equipmentRepository;
 
@@ -51,7 +51,7 @@ namespace OCER.Controllers
             }
             catch (Exception e)
             {
-                log.Error(e);
+                Log.Error(e);
                 return RedirectToAction("Error");
             }
         }
@@ -73,12 +73,12 @@ namespace OCER.Controllers
                 }
                 catch (Exception e)
                 {
-                    log.Error(e);
+                    Log.Error(e);
                     return RedirectToAction("Error");
                 }
             }
 
-            log.Error("Invalid Id from query.");
+            Log.Error("Invalid Id from query.");
             return RedirectToAction("Error");
         }
 
@@ -100,12 +100,12 @@ namespace OCER.Controllers
                 }
                 catch (Exception e)
                 {
-                    log.Error(e);
+                    Log.Error(e);
                     return RedirectToAction("Error");
                 }
             }
 
-            log.Error("Invalid model state.");
+            Log.Error("Invalid model state.");
             return RedirectToAction("Error");
         }
 
@@ -136,7 +136,7 @@ namespace OCER.Controllers
             }
             catch (Exception e)
             {
-                log.Error(e);
+                Log.Error(e);
                 return RedirectToAction("Error");
             }
         }
