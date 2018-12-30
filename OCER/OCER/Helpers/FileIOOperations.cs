@@ -12,10 +12,11 @@ namespace OCER.Helpers
     {
         #region Fields
 
-        internal const string InvoicePath = @"./TextFiles/Invoice.txt";
+        private const string InvoicePath = @"./TextFiles/Invoice.txt";
         private const string InventoryPath = @"./TextFiles/Inventory.txt";
         private const string Currency = "€";
-        private static readonly log4net.ILog log = log4net.LogManager
+
+        private static readonly log4net.ILog Log = log4net.LogManager
             .GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #endregion
@@ -35,8 +36,8 @@ namespace OCER.Helpers
             }
             catch (Exception e)
             {
-                log.Error(e);
-                throw new Exception($"An error occurred: {e}");
+                Log.Error(e);
+                throw new Exception();
             }
         }
 
@@ -68,8 +69,7 @@ namespace OCER.Helpers
                 }
                 catch (Exception e)
                 {
-                    log.Error(e);
-                    throw new Exception($"An error occurred: {e}");
+                    Log.Error(e);
                 }
             }
         }
@@ -88,8 +88,7 @@ namespace OCER.Helpers
             }
             catch (Exception e)
             {
-                log.Error(e);
-                throw new Exception($"An error occurred: {e}");
+                Log.Error(e);
             }
         }
 
