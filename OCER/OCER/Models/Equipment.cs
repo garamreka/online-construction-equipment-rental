@@ -53,6 +53,7 @@ namespace OCER.Models
         /// <summary>
         /// Days of rent of the equipment
         /// </summary>
+        [Range(1, 100, ErrorMessage = "Please enter valid integer number")]
         public int RentDays { get; set; }
         /// <summary>
         /// Price of the equipment

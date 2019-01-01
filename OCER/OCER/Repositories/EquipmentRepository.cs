@@ -34,13 +34,16 @@ namespace OCER.Repositories
 
         #region Constructor
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="fileIoOperations"></param>
         public EquipmentRepository(IFileIoOperations fileIoOperations)
         {
             _fileIoOperations = fileIoOperations;
         }
 
         #endregion
-
 
         #region Private properties
 

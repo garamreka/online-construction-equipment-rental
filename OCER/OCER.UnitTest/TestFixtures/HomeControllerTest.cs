@@ -17,9 +17,9 @@ namespace OCER.UnitTest.TestFixtures
     {
         #region Fileds
 
-        private Mock<IEquipmentRepository> _mockEquipmentRepository;
-        private HomeController _homeController;
-        private Equipment _testEquipment = new Equipment()
+        private readonly Mock<IEquipmentRepository> _mockEquipmentRepository;
+        private readonly HomeController _homeController;
+        private readonly Equipment _testEquipment = new Equipment()
         {
             Id = 1,
             Name = "Caterpillar bulldozer",

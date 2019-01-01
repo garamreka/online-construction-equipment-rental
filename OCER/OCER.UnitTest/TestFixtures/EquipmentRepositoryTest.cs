@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using Moq;
 using NUnit.Framework;
 using OCER.Enums;
@@ -21,7 +20,7 @@ namespace OCER.UnitTest.TestFixtures
         private readonly Mock<IFileIoOperations> _mockFileIoOperations;
         private readonly EquipmentRepository _equipmentRepository;
 
-        private Equipment _testEquipment = new Equipment()
+        private readonly Equipment _testEquipment = new Equipment()
         {
             Id = 1,
             Name = "Caterpillar bulldozer",
@@ -31,7 +30,7 @@ namespace OCER.UnitTest.TestFixtures
             LoyaltyPoint = 0,
         };
 
-        private string[] _testFile  = { "1;Caterpillar bulldozer;Heavy" };
+        private readonly string[] _testFile  = { "1;Caterpillar bulldozer;Heavy" };
 
         #endregion
 
