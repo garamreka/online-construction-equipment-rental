@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using OCER.Helpers;
+using OCER.Interfaces;
 using OCER.Models;
-using OCER.Repositories;
 
 namespace OCER.Controllers
 {
@@ -18,7 +16,7 @@ namespace OCER.Controllers
 
         private static readonly log4net.ILog Log = log4net.LogManager
             .GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly EquipmentRepository _equipmentRepository;
+        private readonly IEquipmentRepository _equipmentRepository;
 
         #endregion
 
@@ -28,7 +26,7 @@ namespace OCER.Controllers
         /// Constructor
         /// </summary>
         /// <param name="equipmentRepository"></param>
-        public HomeController(EquipmentRepository equipmentRepository)
+        public HomeController(IEquipmentRepository equipmentRepository)
         {
             _equipmentRepository = equipmentRepository;
         }
@@ -47,7 +45,7 @@ namespace OCER.Controllers
         {
             try
             {
-                return View("Index", _equipmentRepository.GetAllEquipmentFromFile().ToList());
+                return View("Index", _equipmentRepository.GetAllEquipment().ToList());
             }
             catch (Exception e)
             {
@@ -95,7 +93,7 @@ namespace OCER.Controllers
             {
                 try
                 {
-                    _equipmentRepository.AddNewRentedEquipment(equipment);
+                    _equipmentRepository.AddEquipment(equipment);
                     return RedirectToAction("Confirm");
                 }
                 catch (Exception e)
@@ -131,7 +129,6 @@ namespace OCER.Controllers
             try
             {
                 _equipmentRepository.FinalizeInvoice();
-                _equipmentRepository.Equipments = new List<Equipment>();
                 return View("Final");
             }
             catch (Exception e)
@@ -149,8 +146,7 @@ namespace OCER.Controllers
         [Route("/error")]
         public IActionResult Error()
         {
-            _equipmentRepository.Equipments = new List<Equipment>();
-            FileIoOperations.ClearInvoice();
+            _equipmentRepository.SetDefaultValues();
             return View("Error");
         }
 

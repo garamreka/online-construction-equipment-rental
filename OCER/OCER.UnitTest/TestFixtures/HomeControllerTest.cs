@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using OCER.Controllers;
-using OCER.Repositories;
 using NUnit.Framework;
 using OCER.Enums;
+using OCER.Interfaces;
 using OCER.Models;
 
 namespace OCER.UnitTest.TestFixtures
@@ -16,7 +17,7 @@ namespace OCER.UnitTest.TestFixtures
     {
         #region Fileds
 
-        private Mock<EquipmentRepository> _mockEquipmentRepository;
+        private Mock<IEquipmentRepository> _mockEquipmentRepository;
         private HomeController _homeController;
         private Equipment _testEquipment = new Equipment()
         {
@@ -37,7 +38,7 @@ namespace OCER.UnitTest.TestFixtures
         /// </summary>
         public HomeControllerTest()
         {
-            _mockEquipmentRepository = new Mock<EquipmentRepository>();
+            _mockEquipmentRepository = new Mock<IEquipmentRepository>();
             _homeController = new HomeController(_mockEquipmentRepository.Object);
         }
 
@@ -49,9 +50,12 @@ namespace OCER.UnitTest.TestFixtures
         /// Tests the Index method of the HomeController
         /// </summary>
         [Test]
-        [Explicit("Access to Inventory file is not handled")]
         public void Index_ReturnsView()
         {
+            _mockEquipmentRepository
+                .Setup(repo => repo.GetAllEquipment())
+                .Returns(new List<Equipment>(){_testEquipment});
+
             var result = _homeController.Index() as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ViewName);
@@ -61,7 +65,6 @@ namespace OCER.UnitTest.TestFixtures
         /// Tests the AddRentalDetails method if the input is invalid
         /// </summary>
         [Test]
-        [Explicit("Access to Inventory file is not handled")]
         public void AddRentDetails_ValidInput_ReturnsViewWithSelectedEquipment()
         {
             _mockEquipmentRepository
@@ -125,9 +128,9 @@ namespace OCER.UnitTest.TestFixtures
         /// Tests the Final method of the HomeController
         /// </summary>
         [Test]
-        [Explicit("Access to Invoice file is not handled")]
         public void Final_ReturnsView()
         {
+            _mockEquipmentRepository.Setup(repo => repo.FinalizeInvoice()).Verifiable();
 
             var result = _homeController.Final() as ViewResult;
             Assert.IsNotNull(result);
@@ -138,9 +141,10 @@ namespace OCER.UnitTest.TestFixtures
         /// Tests the Confirm method of the HomeController
         /// </summary>
         [Test]
-        [Explicit("Access to Invoice file is not handled")]
         public void Error_ReturnsErrorView()
         {
+            _mockEquipmentRepository.Setup(repo => repo.SetDefaultValues()).Verifiable();
+
             var result = _homeController.Error() as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Error", result.ViewName);

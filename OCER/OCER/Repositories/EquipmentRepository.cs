@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using OCER.Enums;
 using OCER.Helpers;
+using OCER.Interfaces;
 using OCER.Models;
 
 namespace OCER.Repositories
 {
-    public class EquipmentRepository
+    /// <summary>
+    /// Implementation of EquipmentRepository class
+    /// </summary>
+    public class EquipmentRepository : IEquipmentRepository
     {
         #region Fields
 
@@ -39,12 +43,84 @@ namespace OCER.Repositories
         #region Public methods
 
         /// <summary>
+        /// Gets all equipment
+        /// </summary>
+        /// <returns>The equipment list</returns>
+        public IEnumerable<Equipment> GetAllEquipment() => GetAllEquipmentFromFile();
+
+        /// <summary>
+        /// Gets a specific equipment based on id 
+        /// </summary>
+        /// <param name="id">The id of the equipment</param>
+        /// <returns>The equipment</returns>
+        public Equipment GetEquipmentById(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception($"Invalid id: {id}. Id should be a positive integer.");
+            }
+            var equipment =  GetAllEquipmentFromFile().First(item => item.Id == id);
+
+            if (equipment != null)
+            {
+                return equipment;
+            }
+
+            throw new Exception($"Could not find the equipment based on the given id: {id}");
+        }
+
+        /// <summary>
+        /// Adds the equipment
+        /// </summary>
+        /// <param name="equipment">The equipment</param>
+        public void AddEquipment(Equipment equipment)
+        {
+            AddNewRentedEquipment(equipment);
+        }
+
+        /// <summary>
+        /// Updates the equipment
+        /// </summary>
+        /// <param name="equipment">The updated equipment</param>
+        /// <returns></returns>
+        public Equipment UpdateEquipment(Equipment equipment) => ChangeEquipmentDefaultValues(equipment);
+
+        /// <summary>
+        /// Finalizes the invoice for the rented equipments
+        /// </summary>
+        public void FinalizeInvoice()
+        {
+            if (Equipments.Any())
+            {
+                var equipments = Equipments.Select(UpdateEquipment);
+                FileIoOperations.CreateInvoice(equipments);
+            }
+            else
+            {
+                throw new Exception("Could not find equipment to invoice");
+            }
+        }
+
+        /// <summary>
+        /// Sets the default values
+        /// </summary>
+        public void SetDefaultValues()
+        {
+            Equipments = new List<Equipment>();
+            FileIoOperations.ClearInvoice();
+        }
+
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
         /// Gets all Equipment from the file called Inventory.
         /// Id, Name and EquipmentType properties of the Equipment gets their values from the file,
         /// other properties are initialized with default values.
         /// </summary>
         /// <returns>The Equipments</returns>
-        public IEnumerable<Equipment> GetAllEquipmentFromFile()
+        private IEnumerable<Equipment> GetAllEquipmentFromFile()
         {
             foreach (var line in Lines)
             {
@@ -71,46 +147,12 @@ namespace OCER.Repositories
         /// Adds an equipment to _equipments
         /// </summary>
         /// <param name="equipment">The equipment</param>
-        public void AddNewRentedEquipment(Equipment equipment)
+        private void AddNewRentedEquipment(Equipment equipment)
         {
             if (equipment != null)
                 Equipments.Add(equipment);
             else
                 throw new NullReferenceException("Unable to add new rented equipment");
-        }
-        
-        /// <summary>
-        /// Gets a specific equipment based on id 
-        /// </summary>
-        /// <param name="id">The id of the equipment</param>
-        /// <returns>The equipment</returns>
-        public Equipment GetEquipmentById(int id)
-        {
-            if (id <= 0)
-            {
-                throw new Exception($"Invalid id: {id}. Id should be a positive integer.");
-            }
-            var equipment =  GetAllEquipmentFromFile().First(item => item.Id == id);
-
-            if (equipment != null)
-            {
-                return equipment;
-            }
-
-            throw new Exception($"Could not find the equipment based on the given id: {id}");
-        }
-
-        public void FinalizeInvoice()
-        {
-            if (Equipments.Any())
-            {
-                var equipments = Equipments.Select(ChangeEquipmentDefaultValues);
-                FileIoOperations.CreateInvoice(equipments);
-            }
-            else
-            {
-                throw new Exception("Could not find equipment to invoice");
-            }
         }
 
         /// <summary>
@@ -118,7 +160,7 @@ namespace OCER.Repositories
         /// </summary>
         /// <param name="equipment">The rented equipment</param>
         /// <returns>With the Equipment</returns>
-        public Equipment ChangeEquipmentDefaultValues(Equipment equipment)
+        private Equipment ChangeEquipmentDefaultValues(Equipment equipment)
         {
             if (equipment != null)
             {
@@ -137,7 +179,7 @@ namespace OCER.Repositories
         /// <param name="type">The equipment type</param>
         /// <param name="rentDays">The days of rent</param>
         /// <returns>The corresponding price</returns>
-        public int CalculatePrice(EquipmentType type, int rentDays)
+        private int CalculatePrice(EquipmentType type, int rentDays)
         {
             if (rentDays < 1) throw new Exception($"Invalid rent days: {rentDays}. Renting days should be at least 1.");
 
@@ -160,7 +202,7 @@ namespace OCER.Repositories
         /// </summary>
         /// <param name="type">The equipment type</param>
         /// <returns>The corresponding loyalty points</returns>
-        public int GetLoyaltyPoint(EquipmentType type)
+        private int GetLoyaltyPoint(EquipmentType type)
         {
             switch (type)
             {

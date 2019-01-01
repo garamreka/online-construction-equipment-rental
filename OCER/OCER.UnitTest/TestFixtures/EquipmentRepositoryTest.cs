@@ -43,63 +43,63 @@ namespace OCER.UnitTest.TestFixtures
 
         #region Tests
 
-        #region GetAllEquipmentFromFile
+        #region GetAllEquipment
 
         /// <summary>
-        /// Tests the GetAllEquipmentFromFile method with valid input values
+        /// Tests the GetAllEquipment method with valid input values
         /// </summary>
         [Test]
         [Explicit ("Access to Inventory file is not handled")]
-        public void GetAllEquipmentFromFile_ValidValues_ReturnWithList()
+        public void GetAllEquipment_ValidValues_ReturnWithList()
         {
-            var equipmentList = _equipmentRepository.GetAllEquipmentFromFile();
+            var equipmentList = _equipmentRepository.GetAllEquipment();
             Assert.IsTrue(equipmentList.Any());
         }
 
         /// <summary>
-        /// Tests the GetAllEquipmentFromFile method with invalid id
+        /// Tests the GetAllEquipment method with invalid id
         /// </summary>
         [Test]
         [Explicit ("TestInventory file is not created yet")]
-        public void GetAllEquipmentFromFile_InvalidId_ThrowException()
+        public void GetAllEquipment_InvalidId_ThrowException()
         {
-            Assert.Throws<Exception>(() => _equipmentRepository.GetAllEquipmentFromFile());
+            Assert.Throws<Exception>(() => _equipmentRepository.GetAllEquipment());
         }
 
         /// <summary>
-        /// Tests the GetAllEquipmentFromFile method with invalid type
+        /// Tests the GetAllEquipment method with invalid type
         /// </summary>
         [Test]
         [Explicit("TestInventory file is not created yet")]
-        public void GetAllEquipmentFromFile_InvalidType_ThrowException()
+        public void GetAllEquipment_InvalidType_ThrowException()
         {
-            Assert.Throws<Exception>(() => _equipmentRepository.GetAllEquipmentFromFile());
+            Assert.Throws<Exception>(() => _equipmentRepository.GetAllEquipment());
         }
 
         #endregion
 
-        #region AddNewRentedEquipment
+        #region AddEquipment
 
         /// <summary>
-        /// Tests the AddNewRentedEquipment method with valid Equipment
+        /// Tests the AddEquipment method with valid Equipment
         /// </summary>
         [Test]
-        public void AddNewRentedEquipment_ValidEquipment()
+        public void AddEquipment_ValidEquipment()
         {
             var beforeCount = _equipmentRepository.Equipments.Count;
 
-            _equipmentRepository.AddNewRentedEquipment(_testEquipment);
+            _equipmentRepository.AddEquipment(_testEquipment);
 
             Assert.AreEqual(beforeCount + 1, _equipmentRepository.Equipments.Count);
         }
 
         /// <summary>
-        /// Test the AddNewRentedEquipment method if the Equipment is null
+        /// Test the AddEquipment method if the Equipment is null
         /// </summary>
         [Test]
-        public void AddNewRentedEquipment_NullEquipment()
+        public void AddEquipment_NullEquipment()
         {
-            Assert.Throws<NullReferenceException>(() => _equipmentRepository.AddNewRentedEquipment(null));
+            Assert.Throws<NullReferenceException>(() => _equipmentRepository.AddEquipment(null));
         }
 
         #endregion
@@ -139,13 +139,13 @@ namespace OCER.UnitTest.TestFixtures
 
         #endregion
 
-        #region ChangeEquipmentDefaultValues
+        #region UpdateEquipment
 
         /// <summary>
-        /// Tests the ChangeEquipmentDefaultValues method with valid input value
+        /// Tests the UpdateEquipment method with valid input value
         /// </summary>
         [Test]
-        public void ChangeEquipmentDefaultValues_ValidEquipment_ReturnsEquipment() //todo
+        public void UpdateEquipment_ValidEquipment_ReturnsEquipment() //todo
         {
             var inputEquipment = _testEquipment;
             inputEquipment.RentDays = 4;
@@ -160,59 +160,41 @@ namespace OCER.UnitTest.TestFixtures
                 LoyaltyPoint = 2
             };
 
-            var result = _equipmentRepository.ChangeEquipmentDefaultValues(inputEquipment);
+            var result = _equipmentRepository.UpdateEquipment(inputEquipment);
+
+            Assert.AreEqual(expectedResult.Price, result.Price);
+            Assert.AreEqual(expectedResult.LoyaltyPoint, result.LoyaltyPoint);
+
+            inputEquipment.EquipmentType = EquipmentType.Regular;
+            inputEquipment.RentDays = 2;
+
+            expectedResult.EquipmentType = EquipmentType.Regular;
+            expectedResult.Price = 220;
+            expectedResult.LoyaltyPoint = 1;
+
+            result = _equipmentRepository.UpdateEquipment(inputEquipment);
 
             Assert.AreEqual(expectedResult.Price, result.Price);
             Assert.AreEqual(expectedResult.LoyaltyPoint, result.LoyaltyPoint);
         }
 
         /// <summary>
-        /// Tests the ChangeEquipmentDefaultValues with null input value
+        /// Tests the UpdateEquipment method with valid input value
         /// </summary>
         [Test]
-        public void ChangeEquipmentDefaultValues_NullEquipment_ThrowException()
+        public void UpdateEquipment_InValidRentDays_ReturnsEquipment()
         {
-            Assert.Throws<NullReferenceException>(() => _equipmentRepository.ChangeEquipmentDefaultValues(null));
-        }
-
-        #endregion
-
-        #region CalculatePrice
-
-        /// <summary>
-        /// Tests the CalculatePrice method with valid input values
-        /// </summary>
-        [Test]
-        public void CalculatePrice_ValidInputs_ReturnsPrice()
-        {
-            var result = _equipmentRepository.CalculatePrice(EquipmentType.Heavy, 4);
-            Assert.AreEqual(340, result);
+            var inputEquipment = _testEquipment;
+            Assert.Throws<Exception>(() => _equipmentRepository.UpdateEquipment(inputEquipment));
         }
 
         /// <summary>
-        /// Tests the CalculatePrice method with invalid RentDays input
+        /// Tests the UpdateEquipment with null input value
         /// </summary>
         [Test]
-        public void CalculatePrice_ZeroRentDays_ThrowException()
+        public void UpdateEquipment_NullEquipment_ThrowException()
         {
-            Assert.Throws<Exception>(() => _equipmentRepository.CalculatePrice(EquipmentType.Heavy, 0));
-        }
-
-        #endregion
-
-        #region GetLoyaltyPoint
-
-        /// <summary>
-        /// Tests the GetLoyaltyPoint method with valid type
-        /// </summary>
-        [Test]
-        public void GetLoyaltyPoint_ValidType_ReturnPoint()
-        {
-            var result = _equipmentRepository.GetLoyaltyPoint(EquipmentType.Heavy);
-            Assert.AreEqual(2, result);
-
-            result = _equipmentRepository.GetLoyaltyPoint(EquipmentType.Regular);
-            Assert.AreEqual(1, result);
+            Assert.Throws<NullReferenceException>(() => _equipmentRepository.UpdateEquipment(null));
         }
 
         #endregion
