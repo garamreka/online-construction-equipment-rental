@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using OCER.Interfaces;
 using OCER.Models;
 
 namespace OCER.Helpers
@@ -8,7 +9,7 @@ namespace OCER.Helpers
     /// <summary>
     /// Implementation of FileIoOperations class
     /// </summary>
-    internal static class FileIoOperations
+    internal class FileIoOperations : IFileIoOperations
     {
         #region Fields
 
@@ -21,18 +22,17 @@ namespace OCER.Helpers
 
         #endregion
 
-        #region Internal methods
+        #region Public methods
 
         /// <summary>
         /// Reads all line of a text file based on path.
         /// </summary>
-        /// <param name="path">The path</param>
         /// <returns>The lines of the file</returns>
-        internal static string[] ReadFile(string path = InventoryPath)
+        public string[] ReadFile()
         {
             try
             {
-                return File.ReadAllLines(path);
+                return File.ReadAllLines(InventoryPath);
             }
             catch (Exception e)
             {
@@ -45,7 +45,7 @@ namespace OCER.Helpers
         /// Adds content to the text file called Invoice.
         /// </summary>
         /// <param name="equipments">The equipment which are rented and should be invoiced</param>
-        internal static void CreateInvoice(IEnumerable<Equipment> equipments)
+        public void CreateInvoice(IEnumerable<Equipment> equipments)
         {
             ClearInvoice();
 
@@ -77,7 +77,7 @@ namespace OCER.Helpers
         /// <summary>
         /// Clears the content of text file called Invoice.
         /// </summary>
-        internal static void ClearInvoice()
+        public void ClearInvoice()
         {
             try
             {

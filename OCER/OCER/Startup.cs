@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OCER.Helpers;
+using OCER.Interfaces;
 using OCER.Repositories;
 
 namespace OCER
@@ -12,7 +14,8 @@ namespace OCER
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<EquipmentRepository>();
+            services.AddSingleton<IEquipmentRepository, EquipmentRepository>();
+            services.AddSingleton<IFileIoOperations, FileIoOperations>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

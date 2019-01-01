@@ -1,5 +1,5 @@
 === INVOICE ===
 Rent details
-Caterpillar bulldozer: 280€
-Total price: 280€
-Number of bonus points earned: 2
+Bosch jackhammer: 220€
+Total price: 220€
+Number of bonus points earned: 1

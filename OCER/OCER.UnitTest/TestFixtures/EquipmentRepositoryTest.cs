@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
+using Moq;
 using NUnit.Framework;
 using OCER.Enums;
+using OCER.Interfaces;
 using OCER.Models;
 using OCER.Repositories;
 
@@ -15,7 +18,8 @@ namespace OCER.UnitTest.TestFixtures
     {
         #region Fields
 
-        private EquipmentRepository _equipmentRepository;
+        private readonly Mock<IFileIoOperations> _mockFileIoOperations;
+        private readonly EquipmentRepository _equipmentRepository;
 
         private Equipment _testEquipment = new Equipment()
         {
@@ -27,6 +31,8 @@ namespace OCER.UnitTest.TestFixtures
             LoyaltyPoint = 0,
         };
 
+        private string[] _testFile  = { "1;Caterpillar bulldozer;Heavy" };
+
         #endregion
 
         #region Constructor
@@ -36,7 +42,8 @@ namespace OCER.UnitTest.TestFixtures
         /// </summary>
         public EquipmentRepositoryTest()
         {
-            _equipmentRepository = new EquipmentRepository();
+            _mockFileIoOperations = new Mock<IFileIoOperations>();
+            _equipmentRepository = new EquipmentRepository(_mockFileIoOperations.Object);
         }
 
         #endregion
@@ -49,9 +56,10 @@ namespace OCER.UnitTest.TestFixtures
         /// Tests the GetAllEquipment method with valid input values
         /// </summary>
         [Test]
-        [Explicit ("Access to Inventory file is not handled")]
         public void GetAllEquipment_ValidValues_ReturnWithList()
         {
+            _mockFileIoOperations.Setup(repo => repo.ReadFile()).Returns(_testFile);
+
             var equipmentList = _equipmentRepository.GetAllEquipment();
             Assert.IsTrue(equipmentList.Any());
         }
@@ -60,9 +68,12 @@ namespace OCER.UnitTest.TestFixtures
         /// Tests the GetAllEquipment method with invalid id
         /// </summary>
         [Test]
-        [Explicit ("TestInventory file is not created yet")]
+        [Explicit]
         public void GetAllEquipment_InvalidId_ThrowException()
         {
+            string[] testFile = { "Caterpillar bulldozer;Heavy" };
+            _mockFileIoOperations.Setup(repo => repo.ReadFile()).Returns(testFile);
+
             Assert.Throws<Exception>(() => _equipmentRepository.GetAllEquipment());
         }
 
@@ -70,9 +81,12 @@ namespace OCER.UnitTest.TestFixtures
         /// Tests the GetAllEquipment method with invalid type
         /// </summary>
         [Test]
-        [Explicit("TestInventory file is not created yet")]
+        [Explicit]
         public void GetAllEquipment_InvalidType_ThrowException()
         {
+            string[] testFile = { "1;Caterpillar bulldozer;Hea" };
+            _mockFileIoOperations.Setup(repo => repo.ReadFile()).Returns(testFile);
+
             Assert.Throws<Exception>(() => _equipmentRepository.GetAllEquipment());
         }
 
@@ -110,13 +124,16 @@ namespace OCER.UnitTest.TestFixtures
         /// Tests the GetEquipmentById method with valid Id
         /// </summary>
         [Test]
-        [Explicit("Access to Inventory file is not handled")]
         public void GetEquipmentById_ValidId_ReturnsEquipment()
         {
+            _mockFileIoOperations.Setup(repo => repo.ReadFile()).Returns(_testFile);
+
             var expectedResult = _testEquipment;
             var result = _equipmentRepository.GetEquipmentById(1);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.AreEqual(expectedResult.Id, result.Id);
+            Assert.AreEqual(expectedResult.Name, result.Name);
+            Assert.AreEqual(expectedResult.EquipmentType, result.EquipmentType);
         }
 
         /// <summary>
@@ -134,7 +151,7 @@ namespace OCER.UnitTest.TestFixtures
         [Test]
         public void GetEquipmentById_NotFoundId_ThrowException()
         {
-            Assert.Throws<Exception>(() => _equipmentRepository.GetEquipmentById(10));
+            Assert.Throws<InvalidOperationException>(() => _equipmentRepository.GetEquipmentById(10));
         }
 
         #endregion
@@ -145,7 +162,7 @@ namespace OCER.UnitTest.TestFixtures
         /// Tests the UpdateEquipment method with valid input value
         /// </summary>
         [Test]
-        public void UpdateEquipment_ValidEquipment_ReturnsEquipment() //todo
+        public void UpdateEquipment_ValidEquipment_ReturnsEquipment()
         {
             var inputEquipment = _testEquipment;
             inputEquipment.RentDays = 4;

@@ -15,6 +15,7 @@ namespace OCER.Repositories
     {
         #region Fields
 
+        private readonly IFileIoOperations _fileIoOperations;
         private readonly int _oneTimeRentalFee = 100;
         private readonly int _premiumDailyFee = 60;
         private readonly int _regularDailyFee = 40;
@@ -31,12 +32,22 @@ namespace OCER.Repositories
 
         #endregion
 
+        #region Constructor
+
+        public EquipmentRepository(IFileIoOperations fileIoOperations)
+        {
+            _fileIoOperations = fileIoOperations;
+        }
+
+        #endregion
+
+
         #region Private properties
 
         /// <summary>
         /// Gets the lines from the file called Inventory.
         /// </summary>
-        private string[] Lines => _lines ?? (_lines = FileIoOperations.ReadFile());
+        private string[] Lines => _lines ?? (_lines = _fileIoOperations.ReadFile());
 
         #endregion
 
@@ -46,7 +57,10 @@ namespace OCER.Repositories
         /// Gets all equipment
         /// </summary>
         /// <returns>The equipment list</returns>
-        public IEnumerable<Equipment> GetAllEquipment() => GetAllEquipmentFromFile();
+        public IEnumerable<Equipment> GetAllEquipment()
+        {
+            return GetAllEquipmentFromFile();
+        }
 
         /// <summary>
         /// Gets a specific equipment based on id 
@@ -59,7 +73,7 @@ namespace OCER.Repositories
             {
                 throw new Exception($"Invalid id: {id}. Id should be a positive integer.");
             }
-            var equipment =  GetAllEquipmentFromFile().First(item => item.Id == id);
+            var equipment =  GetAllEquipment().First(item => item.Id == id);
 
             if (equipment != null)
             {
@@ -93,7 +107,8 @@ namespace OCER.Repositories
             if (Equipments.Any())
             {
                 var equipments = Equipments.Select(UpdateEquipment);
-                FileIoOperations.CreateInvoice(equipments);
+                _fileIoOperations.CreateInvoice(equipments);
+                Equipments = new List<Equipment>();
             }
             else
             {
@@ -107,7 +122,7 @@ namespace OCER.Repositories
         public void SetDefaultValues()
         {
             Equipments = new List<Equipment>();
-            FileIoOperations.ClearInvoice();
+            _fileIoOperations.ClearInvoice();
         }
 
         #endregion
