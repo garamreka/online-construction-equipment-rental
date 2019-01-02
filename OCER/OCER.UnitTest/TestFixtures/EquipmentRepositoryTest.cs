@@ -130,9 +130,7 @@ namespace OCER.UnitTest.TestFixtures
             var expectedResult = _testEquipment;
             var result = _equipmentRepository.GetEquipmentById(1);
 
-            Assert.AreEqual(expectedResult.Id, result.Id);
-            Assert.AreEqual(expectedResult.Name, result.Name);
-            Assert.AreEqual(expectedResult.EquipmentType, result.EquipmentType);
+            Assert.AreEqual(expectedResult, result);
         }
 
         /// <summary>
@@ -178,20 +176,19 @@ namespace OCER.UnitTest.TestFixtures
 
             var result = _equipmentRepository.UpdateEquipment(inputEquipment);
 
-            Assert.AreEqual(expectedResult.Price, result.Price);
-            Assert.AreEqual(expectedResult.LoyaltyPoint, result.LoyaltyPoint);
+            Assert.AreEqual(expectedResult, result);
 
             inputEquipment.EquipmentType = EquipmentType.Regular;
             inputEquipment.RentDays = 2;
 
             expectedResult.EquipmentType = EquipmentType.Regular;
+            expectedResult.RentDays = 2;
             expectedResult.Price = 220;
             expectedResult.LoyaltyPoint = 1;
 
             result = _equipmentRepository.UpdateEquipment(inputEquipment);
 
-            Assert.AreEqual(expectedResult.Price, result.Price);
-            Assert.AreEqual(expectedResult.LoyaltyPoint, result.LoyaltyPoint);
+            Assert.AreEqual(expectedResult, result);
         }
 
         /// <summary>
