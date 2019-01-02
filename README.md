@@ -10,7 +10,7 @@
 <p>Language: C#</p>
 <p>Used tools, technologies and packages:</p>
 <ul>
-  <li>ASP.NET Core v2.2.0</li>
+  <li>ASP.NET Core v2.0</li>
   <li>MVC pattern</li>
   <li>Visual Studio 2017 v15.3.3 (Win10 SDK v10.0.15063.0)</li>
   <li>NUnit (v3.11.0) and Moq (v4.10.1) for unit testing</li>
