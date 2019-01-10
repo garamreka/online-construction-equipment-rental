@@ -1,5 +1,6 @@
 <h1>Online Construction Equipment Rental</h1>
-<p>This project is my solution for a home assignment received from <a href="https://www.bondora.com/en">Bondora</a>.The goal of the project was to  create a self-service system for renting construction equipment.</p>
+<h3>Goal</h3>
+<p>Create a self-service system for renting construction equipment.</p>
 <p>Customer is able to</p>
 <ul>
   <li>see the list of equipment</li>
@@ -12,8 +13,8 @@
 <ul>
   <li>ASP.NET Core v2.0</li>
   <li>MVC pattern</li>
-  <li>Visual Studio 2017 v15.3.3 (Win10 SDK v10.0.15063.0)</li>
-  <li>NUnit (v3.11.0) and Moq (v4.10.1) for unit testing</li>
-  <li>log4net (v2.0.8) for logging</li>
-  <li>Bootstrap (v4.2.1) for design (internet connection required to apply)</li>
+  <li>Visual Studio 2017</li>
+  <li>NUnit and Moq for unit testing</li>
+  <li>log4net for logging</li>
+  <li>Bootstrap (v4.2) for design (internet connection required to apply)</li>
 </ul>
